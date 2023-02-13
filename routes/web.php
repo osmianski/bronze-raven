@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SlugController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return inertia('Home');
-});
+Route::get('/', [SlugController::class, 'home']);
+Route::get('{slug:slug}', [SlugController::class, 'show'])
+    ->where('slug', '([A-Za-z0-9\-\/]+)');
