@@ -47,6 +47,7 @@ function cancel(e) {
 <template>
     <component :is="element" @click="edit" @blur="commit"
         @keydown.enter.prevent="commit" @keydown.esc.prevent="cancel" :contenteditable="editable"
+        class="focus:outline focus:outline-offset-2 focus:outline-blue-500"
     >
         {{ modelValue }}
     </component>
