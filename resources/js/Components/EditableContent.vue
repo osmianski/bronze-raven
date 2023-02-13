@@ -28,8 +28,10 @@ function commit(e) {
     }
 
     editable.value = false;
+    if (oldValue !== e.currentTarget.innerText) {
+        emit('update:modelValue', e.currentTarget.innerText);
+    }
     oldValue = null;
-    emit('update:modelValue', e.currentTarget.innerText);
 }
 
 function cancel(e) {

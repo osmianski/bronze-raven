@@ -16,6 +16,6 @@ class SlugController extends Controller
 
     public function show(Slug $slug): Response|ResponseFactory
     {
-        return app($slug->controller_class)($slug);
+        return app($slug->controller_class)->show($slug);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\SlugController;
 use Illuminate\Support\Facades\Route;
 
@@ -13,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::post('/_pages', [PageController::class, 'update']);
 
 Route::get('/', [SlugController::class, 'home']);
 Route::get('{slug:slug}', [SlugController::class, 'show'])

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\NotImplemented;
 use App\Models\Page;
 use App\Models\Slug;
 use Illuminate\Http\Request;
@@ -10,10 +11,15 @@ use Inertia\ResponseFactory;
 
 class PageController extends Controller
 {
-    public function __invoke(Slug $slug): Response|ResponseFactory
+    public function show(Slug $slug): Response|ResponseFactory
     {
         return inertia('Page', [
             'page' => Page::whereSlugId($slug->id)->firstOrFail(),
         ]);
+    }
+
+    public function update()
+    {
+        throw new NotImplemented();
     }
 }
