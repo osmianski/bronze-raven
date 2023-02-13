@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\Page
@@ -21,6 +22,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereUpdatedAt($value)
+ * @property int $slug_id
+ * @property-read \App\Models\Slug $slug
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereSlugId($value)
  * @mixin \Eloquent
  */
 class Page extends Model
@@ -28,7 +32,13 @@ class Page extends Model
     use HasFactory;
 
     protected $fillable = [
+        'slug_id',
         'title',
         'body',
     ];
+
+    public function slug(): BelongsTo
+    {
+        return $this->belongsTo(Slug::class);
+    }
 }

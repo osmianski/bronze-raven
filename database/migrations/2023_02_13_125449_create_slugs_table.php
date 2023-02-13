@@ -19,10 +19,6 @@ return new class extends Migration
 
             $table->string('slug')->index();
             $table->string('controller_class');
-            $table->foreignId('page_id')
-                ->nullable()
-                ->constrained()
-                ->cascadeOnDelete();
         });
     }
 

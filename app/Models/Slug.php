@@ -28,4 +28,9 @@ use Illuminate\Database\Eloquent\Model;
 class Slug extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'slug',
+        'controller_class',
+    ];
 }

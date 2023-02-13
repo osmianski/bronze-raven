@@ -12,14 +12,14 @@ class PageSeeder extends Seeder
 {
     public function run(): void
     {
-        $page = Page::create([
-            'title' => 'Home',
-            'body' => 'Welcome to the `bronze-raven` project!',
-        ]);
-        Slug::create([
+        $slug = Slug::create([
             'slug' => '/',
             'controller_class' => PageController::class,
-            'page_id' => $page->id,
+        ]);
+        Page::create([
+            'slug_id' => $slug->id,
+            'title' => 'Home',
+            'body' => 'Welcome to the `bronze-raven` project!',
         ]);
     }
 }

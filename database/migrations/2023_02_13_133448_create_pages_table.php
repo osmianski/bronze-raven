@@ -16,6 +16,11 @@ return new class extends Migration
         Schema::create('pages', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+
+            $table->foreignId('slug_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
             $table->string('title')->nullable()->index();
             $table->text('body')->nullable();
         });
