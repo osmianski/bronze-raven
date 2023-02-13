@@ -19,7 +19,7 @@ class PageSeeder extends Seeder
         Page::create([
             'slug_id' => $slug->id,
             'title' => 'Home',
-            'body' => 'Welcome to the `bronze-raven` project!',
+            'body' => file_get_contents(__DIR__ . '/home.md'),
         ]);
     }
 }
