@@ -8,7 +8,7 @@ const props = defineProps({
     page: Object,
 });
 
-function saveTitle() {
+function update(column) {
     const request = {
         method: 'post',
         baseURL: 'http://127.0.0.1:8000',
@@ -16,27 +16,11 @@ function saveTitle() {
         params: {
             id: props.page.id,
         },
-        data: {
-            title: props.page.title,
-        },
+        data: {},
     };
-    axios(request).catch(function (error) {
-        console.log(error);
-    });;
-}
 
-function saveBody() {
-    const request = {
-        method: 'post',
-        baseURL: 'http://127.0.0.1:8000',
-        url: '/_pages',
-        params: {
-            id: props.page.id,
-        },
-        data: {
-            body: props.page.body,
-        },
-    };
+    request.data[column] = props.page[column];
+
     axios(request).catch(function (error) {
         console.log(error);
     });;
@@ -50,11 +34,11 @@ function saveBody() {
         <main class="min-w-0 max-w-2xl flex-auto px-4 py-16 lg:max-w-none lg:pr-0 lg:pl-8 xl:px-16">
             <article>
                 <header class="mb-9 space-y-1">
-                    <Editable v-model="page.title" @update:model-value="saveTitle"
+                    <Editable v-model="page.title" @update:model-value="update('title')"
                         element="h1" class="font-display text-3xl tracking-tight text-slate-900 dark:text-white" />
                 </header>
 
-                <EditableMarkdown v-model="page.body" @update:model-value="saveBody" />
+                <EditableMarkdown v-model="page.body" @update:model-value="update('body')" />
             </article>
         </main>
     </div>

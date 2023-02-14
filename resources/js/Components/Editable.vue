@@ -9,7 +9,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue']);
 
 let oldValue = null;
-const editable = ref(false);
+const editable = ref(null);
 
 async function edit(e) {
     if (editable.value) {
@@ -22,16 +22,19 @@ async function edit(e) {
     e.currentTarget.focus();
 }
 
-function commit(e) {
+async function commit(e) {
     if (!editable.value) {
         return;
     }
 
-    editable.value = false;
+    editable.value = null;
     if (oldValue !== e.currentTarget.innerText) {
         emit('update:modelValue', e.currentTarget.innerText);
     }
     oldValue = null;
+
+    await nextTick();
+    e.currentTarget.blur();
 }
 
 function cancel(e) {
@@ -39,7 +42,7 @@ function cancel(e) {
         return;
     }
 
-    editable.value = false;
+    editable.value = null;
     e.currentTarget.innerText = oldValue;
     oldValue = null;
 }
