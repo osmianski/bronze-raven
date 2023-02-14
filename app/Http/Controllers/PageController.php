@@ -18,8 +18,9 @@ class PageController extends Controller
         ]);
     }
 
-    public function update()
+    public function update(Request $request)
     {
-        throw new NotImplemented();
+        Page::where('id', '=', $request->query('id'))
+            ->update((array)$request->post());
     }
 }
