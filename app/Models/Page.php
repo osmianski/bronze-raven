@@ -25,6 +25,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $slug_id
  * @property-read \App\Models\Slug $slug
  * @method static \Illuminate\Database\Eloquent\Builder|Page whereSlugId($value)
+ * @property int $owner_id
+ * @property-read \App\Models\Account $owner
+ * @method static \Illuminate\Database\Eloquent\Builder|Page whereOwnerId($value)
  * @mixin \Eloquent
  */
 class Page extends Model
@@ -33,6 +36,7 @@ class Page extends Model
 
     protected $fillable = [
         'slug_id',
+        'owner_id',
         'title',
         'body',
     ];
@@ -40,5 +44,10 @@ class Page extends Model
     public function slug(): BelongsTo
     {
         return $this->belongsTo(Slug::class);
+    }
+
+    public function owner(): BelongsTo
+    {
+        return $this->belongsTo(Account::class, 'owner_id');
     }
 }

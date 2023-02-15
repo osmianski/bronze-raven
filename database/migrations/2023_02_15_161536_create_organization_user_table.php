@@ -8,31 +8,28 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('pages', function (Blueprint $table) {
+        Schema::create('organization_user', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
 
-            $table->foreignId('slug_id')
+            $table->foreignId('organization_id')
                 ->constrained()
                 ->cascadeOnDelete();
 
-            $table->string('title')->nullable()->index();
-            $table->text('body')->nullable();
+            $table->foreignId('user_id')
+                ->constrained()
+                ->cascadeOnDelete();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('pages');
+        Schema::dropIfExists('organization_user');
     }
 };
