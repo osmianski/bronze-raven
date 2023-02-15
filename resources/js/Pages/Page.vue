@@ -3,28 +3,31 @@ import { Head } from '@inertiajs/inertia-vue3';
 import Editable from "@/Components/Editable.vue";
 import axios from "axios";
 import EditableMarkdown from "@/Components/EditableMarkdown.vue";
+import { watch } from 'vue';
 
 const props = defineProps({
     page: Object,
 });
 
-function update(column) {
-    const request = {
-        method: 'post',
-        baseURL: 'http://127.0.0.1:8000',
-        url: '/_pages',
-        params: {
-            id: props.page.id,
-        },
-        data: {},
-    };
+['title', 'body'].forEach(property => {
+    watch(() => props.page[property], value => {
+        const request = {
+            method: 'post',
+            baseURL: 'http://127.0.0.1:8000',
+            url: '/_pages',
+            params: {
+                id: props.page.id,
+            },
+            data: {},
+        };
 
-    request.data[column] = props.page[column];
+        request.data[property] = value;
 
-    axios(request).catch(function (error) {
-        console.log(error);
-    });;
-}
+        axios(request).catch(function (error) {
+            console.log(error);
+        });
+    });
+});
 </script>
 
 <template>
@@ -34,11 +37,11 @@ function update(column) {
         <main class="min-w-0 max-w-2xl flex-auto px-4 py-16 lg:max-w-none lg:pr-0 lg:pl-8 xl:px-16">
             <article>
                 <header class="mb-9 space-y-1">
-                    <Editable v-model="page.title" @update:model-value="update('title')"
+                    <Editable v-model="page.title"
                         element="h1" class="font-display text-3xl tracking-tight text-slate-900 dark:text-white" />
                 </header>
 
-                <EditableMarkdown v-model="page.body" @update:model-value="update('body')" />
+                <EditableMarkdown v-model="page.body" />
             </article>
         </main>
     </div>
