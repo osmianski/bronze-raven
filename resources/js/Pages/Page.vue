@@ -9,7 +9,9 @@ const props = defineProps({
     page: Object,
 });
 
-['title', 'body'].forEach(property => {
+const editablePageProps = ['title', 'body'];
+
+editablePageProps.forEach(property => {
     watch(() => props.page[property], value => {
         const request = {
             method: 'post',
