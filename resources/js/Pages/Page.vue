@@ -1,5 +1,5 @@
 <script setup>
-import { Head } from '@inertiajs/inertia-vue3';
+import { Head } from '@inertiajs/vue3';
 import Editable from "@/Components/Editable.vue";
 import axios from "axios";
 import EditableMarkdown from "@/Components/EditableMarkdown.vue";
