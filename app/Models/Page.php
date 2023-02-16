@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Events\PageSaved;
+use Illuminate\Broadcasting\Channel;
+use Illuminate\Database\Eloquent\BroadcastsEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -33,7 +34,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class Page extends Model
 {
-    use HasFactory;
+    use HasFactory, BroadcastsEvents;
 
     protected $fillable = [
         'slug_id',
@@ -42,9 +43,12 @@ class Page extends Model
         'body',
     ];
 
-    protected $dispatchesEvents = [
-        'saved' => PageSaved::class,
-    ];
+    public function broadcastOn(string $event): array
+    {
+        return [
+            new Channel('pages'),
+        ];
+    }
 
     public function slug(): BelongsTo
     {

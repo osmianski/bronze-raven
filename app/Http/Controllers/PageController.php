@@ -21,6 +21,8 @@ class PageController extends Controller
     public function update(Request $request)
     {
         Page::where('id', '=', $request->query('id'))
-            ->update((array)$request->post());
+            ->each(function (Page $page) use ($request) {
+                $page->update((array)$request->post());
+            });
     }
 }

@@ -31,6 +31,12 @@ editablePageProps.forEach(property => {
     watch(() => props.page[property], value =>
         updatePageProperty(property, value, { id: props.page.id}));
 });
+
+Echo.channel(`pages`).listen('.PageUpdated', (e) => {
+    if (e.model.id === props.page.id) {
+        Object.assign(props.page, e.model);
+    }
+});
 </script>
 
 <template>
