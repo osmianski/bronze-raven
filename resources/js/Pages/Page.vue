@@ -1,5 +1,5 @@
 <script setup>
-import { Head } from '@inertiajs/vue3';
+import {Head, usePage} from '@inertiajs/vue3';
 import Editable from "@/Components/Editable.vue";
 import axios from "axios";
 import EditableMarkdown from "@/Components/EditableMarkdown.vue";
@@ -11,24 +11,25 @@ const props = defineProps({
 
 const editablePageProps = ['title', 'body'];
 
-editablePageProps.forEach(property => {
-    watch(() => props.page[property], value => {
-        const request = {
-            method: 'post',
-            baseURL: 'http://127.0.0.1:8000',
-            url: '/_pages',
-            params: {
-                id: props.page.id,
-            },
-            data: {},
-        };
+function updatePageProperty(property, value, filter) {
+    const request = {
+        method: 'post',
+        baseURL: usePage().props.baseUrl,
+        url: '/_pages',
+        params: filter,
+        data: {},
+    };
 
-        request.data[property] = value;
+    request.data[property] = value;
 
-        axios(request).catch(function (error) {
-            console.log(error);
-        });
+    axios(request).catch(function (error) {
+        console.log(error);
     });
+}
+
+editablePageProps.forEach(property => {
+    watch(() => props.page[property], value =>
+        updatePageProperty(property, value, { id: props.page.id}));
 });
 </script>
 
