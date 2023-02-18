@@ -22,7 +22,11 @@
 
 ## Introduction
 
-This is a Laravel + Vue.js + Inertia.js project implementing inline website content editing (directly on the frontend page, reducing the need of an admin panel) and near real-time synchronization across multiple users (eliminating the need to refresh a page to receive a fresh version of it).
+This is a Laravel + Vue.js + Inertia.js project implementing: 
+
+* **dynamic route dispatch** configured in the database;
+* **inline website content editing** directly on the frontend page, reducing the need of an admin panel;
+* **near real-time synchronization across multiple users** eliminating the need to refresh a page to receive a fresh version of it.
 
 ## Docker installation
 
