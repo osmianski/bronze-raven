@@ -5,7 +5,20 @@
     * [Containers and external services](#containers-and-external-services)
     * [Prerequisites](#prerequisites)
     * [Installation](#installation)
+* [Usage](#usage)
+* [Database schema](#database-schema)
+    * [`pages`](#pages) 
+    * [`slugs`](#slugs) 
+    * [`accounts`](#accounts) 
+    * [`users`](#users) 
+    * [`organizations`](#organizations) 
+    * [`organization_user`](#organizationuser) 
 * [How it works](#how-it-works)
+    * [Dynamic routes](#dynamic-routes)
+    * [`Page` page component](#page-page-component) 
+    * [`Editable` component](#editable-component) 
+    * [`EditableMarkdown` component](#editablemarkdown-component) 
+    * [Synchronization across multiple users](#synchronization-across-multiple-users) 
 
 ## Introduction
 
