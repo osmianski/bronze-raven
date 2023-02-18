@@ -9,7 +9,7 @@ use Inertia\ResponseFactory;
 interface Sluggable
 {
     /**
-     * Renders the Inertia response for the specified slug.
+     * Renders an Inertia page for the specified slug.
      *
      * @param Slug $slug
      * @return Response|ResponseFactory
