@@ -18,15 +18,26 @@ class PageSeeder extends Seeder
             ->where('is_admin', '=', true)
             ->firstOrFail();
 
-        $slug = Slug::create([
-            'slug' => '/',
-            'controller_class' => PageController::class,
-        ]);
-        Page::create([
-            'slug_id' => $slug->id,
+        $page = Page::create([
             'owner_id' => $admin->account->id,
             'title' => 'Home',
             'body' => file_get_contents(__DIR__ . '/home.md'),
+        ]);
+        Slug::create([
+            'slug' => '',
+            'type' => Slug\Type::Page,
+            'page_id' => $page->id,
+        ]);
+
+        $page = Page::create([
+            'owner_id' => $admin->account->id,
+            'title' => 'Usage',
+            'body' => file_get_contents(__DIR__ . '/usage.md'),
+        ]);
+        Slug::create([
+            'slug' => 'usage',
+            'type' => Slug\Type::Page,
+            'page_id' => $page->id,
         ]);
     }
 }

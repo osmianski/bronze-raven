@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\BroadcastsEvents;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * App\Models\Page
@@ -37,7 +38,6 @@ class Page extends Model
     use HasFactory, BroadcastsEvents;
 
     protected $fillable = [
-        'slug_id',
         'owner_id',
         'title',
         'body',
@@ -50,9 +50,9 @@ class Page extends Model
         ];
     }
 
-    public function slug(): BelongsTo
+    public function slug(): HasOne
     {
-        return $this->belongsTo(Slug::class);
+        return $this->hasOne(Slug::class);
     }
 
     public function owner(): BelongsTo

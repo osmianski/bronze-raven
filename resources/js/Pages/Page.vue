@@ -15,7 +15,7 @@ function updatePageProperty(property, value, filter) {
     const request = {
         method: 'post',
         baseURL: usePage().props.baseUrl,
-        url: '/_pages',
+        url: '/pages',
         params: filter,
         data: {},
     };

@@ -17,10 +17,6 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
 
-            $table->foreignId('slug_id')
-                ->constrained()
-                ->cascadeOnDelete();
-
             $table->foreignId('owner_id')
                 ->constrained('accounts')
                 ->cascadeOnDelete();

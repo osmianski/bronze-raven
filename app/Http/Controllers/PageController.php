@@ -9,12 +9,12 @@ use Illuminate\Http\Request;
 use Inertia\Response;
 use Inertia\ResponseFactory;
 
-class PageController extends Controller
+class PageController extends Controller implements Sluggable
 {
     public function show(Slug $slug): Response|ResponseFactory
     {
         return inertia('Page', [
-            'page' => Page::whereSlugId($slug->id)->firstOrFail(),
+            'page' => Page::where('id', '=', $slug->page_id)->firstOrFail(),
         ]);
     }
 

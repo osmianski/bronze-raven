@@ -18,7 +18,12 @@ return new class extends Migration
             $table->timestamps();
 
             $table->string('slug')->index();
-            $table->string('controller_class');
+            $table->string('type');
+
+            $table->foreignId('page_id')
+                ->nullable()
+                ->constrained()
+                ->cascadeOnDelete();
         });
     }
 

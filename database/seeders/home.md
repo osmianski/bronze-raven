@@ -1,3 +1,3 @@
 Welcome to the `bronze-raven` project!
 
-Click on any part of the page to edit it.
+Click on a text to edit it. See [Usage](/usage.html) for more information. 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Slug\Type;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,5 +33,10 @@ class Slug extends Model
     protected $fillable = [
         'slug',
         'controller_class',
+        'page_id',
+    ];
+
+    protected $casts = [
+        'type' => Type::class,
     ];
 }

@@ -1,66 +1,171 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# `bronze-raven`
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+* [Introduction](#introduction)
+* [Docker installation](#docker-installation)
+    * [Containers and external services](#containers-and-external-services)
+    * [Prerequisites](#prerequisites)
+    * [Installation](#installation)
+* [How it works](#how-it-works)
 
-## About Laravel
+## Introduction
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This is a Laravel + Vue.js + Inertia.js project implementing inline website content editing (directly on the frontend page, reducing the need of an admin panel) and synchronization across multiple users (eliminating the need to refresh a page to receive a fresh version of it).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Docker installation
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Containers and external services
 
-## Learning Laravel
+```mermaid
+flowchart TD;
+    A(Local machine)
+    subgraph laravel.test
+        B(Web pages)
+        C(Terminal)
+    end
+    subgraph mysql
+        D[(Database)]      
+    end
+    subgraph pusher.com
+        E[Web Socket channels]      
+    end
+    A --> laravel.test
+    laravel.test --> mysql
+    laravel.test --> pusher.com
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+As you can see in the `docker-compose.yml`, it uses 2 containers:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+* `laravel.test` container runs PHP code - Web pages and CLI commands.
+* `mysql` container stores the database.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+In addition, the application broadcasts model changes to open browser tabs through [Pusher](https://pusher.com/).
+ 
+### Prerequisites
 
-## Laravel Sponsors
+Before installing the project:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+* Install
+    * PHP 8.1
+    * Composer
+    * Node.js
+    * Docker 2
+    * Docker Compose
+* [Create the `sail` shell alias](https://laravel.com/docs/9.x/sail#configuring-a-shell-alias).
+* Create a [Pusher](https://pusher.com/) account, and an app in it named `bronze-raven`.
 
-### Premium Partners
+### Installation
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+Install the project into the `~/projects/bronze-raven` directory (the "project directory"):
 
-## Contributing
+1. Download and prepare the project files using the following commands:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+        cd ~/projects
+        git clone git@github.com:osmianski/bronze-raven.git
+        cd bronze-raven
+        composer install
+        npm install
+        php -r "file_exists('.env') || copy('.env.example', '.env');"
+        php artisan key:generate --ansi
 
-## Code of Conduct
+2. Fill in Pusher credentials in the `.env` file:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+        PUSHER_APP_ID=
+        PUSHER_APP_KEY=
+        PUSHER_APP_SECRET=
+        PUSHER_APP_CLUSTER=
+ 
+3. In a separate terminal window, start the Docker containers by running the following commands, and keeping it running there:
 
-## Security Vulnerabilities
+        cd ~/projects/bronze-raven
+        sail up
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+4. In a separate terminal window, start Vite by running the following commands, and keeping it running there:
 
-## License
+        cd ~/projects/bronze-raven
+        npm run dev
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+5. Prepare the database and sample data:
+
+        cd ~/projects/bronze-raven
+        sail artisan migrate:fresh --seed
+
+## Usage 
+
+At the first sight, this website is just nothing fancy. But the first impression is misleading.
+
+The thing is, you can edit the web pages right here in the browser.
+
+For example, to edit the title of a page, click on it - and it becomes editable, change the text to your liking,  press `Enter` - and voilà - it's changed, forever!
+
+Yes, it's that simple. In fact, it's even simpler - you even need the `Enter` - just click outside the title, and your changes are still applied.
+
+There is more. To cancel editing, press `Escape`. To confirm the changes and edit the page content, press `Tab`.
+
+Content editing works just the same, just use `Ctrl + Enter` to confirm the changes.
+
+There is even more. If someone else edits the same page, their changes are shown to you in an instant!
+
+## Models
+
+To understand the application, first get acquainted with its data structures. 
+
+### `Page`
+
+Both the home page and the "Usage" page are instances of the [`Page`](https://github.com/osmianski/bronze-raven/blob/v0.1/app/Models/Page.php) Eloquent model. They are seeded during installation by running the `sail artisan migrate:fresh --seed` command. At the moment, there is no UI for creating other pages, but when it's implemented, these pages will be stored, rendered and edited in exactly the same way. 
+
+Important properties:
+
+* `title` - the page title
+* `body` - the page body written in Markdown
+* `owner_id` - the [account](#account) that owns this page 
+
+Pages are stored in the `pages` database table.
+
+### `Slug`
+
+In addition to traditional Laravel routes that handle pre-defined URLs, there are two [application routes](https://github.com/osmianski/bronze-raven/blob/v0.1/routes/web.php) that handle dynamic URLs:
+
+```php
+Route::get('/', [SlugController::class, 'home']);
+Route::get('{slug:slug}.html', [SlugController::class, 'show'])
+    ->where('slug', '([A-Za-z0-9\-\/]+)');
+```
+
+Dynamic URLs are listed in the `slugs` table and managed by the [`Slug`](https://github.com/osmianski/bronze-raven/blob/v0.1/app/Models/Slug.php) Eloquent model.
+
+Important properties:
+
+* `slug` - the recognized path of the URL path, or an empty string in the case of the home page.
+* `type` - the type of the page under the slug.
+* `page_id` - the [page](#page) to be rendered if the `type` is `Type::Page`, or `null` otherwise
+
+At the moment, the only slug type `Type::Page`, and it renders `Page` models. In the future, slug types rendering e-commerce products or blog posts may be implemented. 
+
+### `Account`
+
+At the moment, any guest user can edit any data they can access. Eventually, user actions will be restricted according to data ownership.
+
+
+
+## How it works
+
+### `Sluggable`
+
+All these controllers must implement the [`Sluggable`](https://github.com/osmianski/bronze-raven/blob/v0.1/app/Http/Controllers/Sluggable.php) interface:
+
+```php
+interface Sluggable
+{
+    /**
+     * Renders the Inertia response for the specified slug.
+     * 
+     * @param Slug $slug
+     * @return Response|ResponseFactory
+     */
+    public function show(Slug $slug): Response|ResponseFactory;
+}
+```
+
+### `Editable` Vue component
+
+### `EditableMarkdown` Vue component

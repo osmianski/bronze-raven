@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/_pages', [PageController::class, 'update']);
+Route::post('/pages', [PageController::class, 'update']);
 
 Route::get('/', [SlugController::class, 'home']);
-Route::get('{slug:slug}', [SlugController::class, 'show'])
+Route::get('{slug:slug}.html', [SlugController::class, 'show'])
     ->where('slug', '([A-Za-z0-9\-\/]+)');
